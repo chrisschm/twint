@@ -1,7 +1,5 @@
 
 from time import sleep
-import os
-import yaml
 import sqlite3
 import requests
 
