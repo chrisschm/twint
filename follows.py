@@ -1,8 +1,8 @@
 
+import time
 from time import sleep
 import sqlite3
 import requests
-
 import config
 
 ### Variable #####################################################################################
@@ -62,7 +62,7 @@ def get_follows(id, recursive_deep):
                 names = names + "," + name    
         
         if int(response.headers['x-rate-limit-remaining']) == 0:
-            print("Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...")
+            print("{}: Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...".format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())))
             sleep(900)
 
         get_many_users(names, recursive_deep)        
@@ -71,7 +71,7 @@ def get_follows(id, recursive_deep):
         print('No follows for ID={}, skipping this user.'.format(id))
     else:
         if int(response.headers['x-rate-limit-remaining']) == 0:
-            print("Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...")
+            print("{}: Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...".format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())))
             sleep(900)    
 
     try:
@@ -93,7 +93,7 @@ def get_follows(id, recursive_deep):
                     names = names + "," + name    
         
             if int(response.headers['x-rate-limit-remaining']) == 0:
-                print("Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...")
+                print("{}: Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...".format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())))
                 sleep(900)
 
             get_many_users(names, recursive_deep)
@@ -120,7 +120,7 @@ def get_follows(id, recursive_deep):
                 names = names + "," + name    
         
         if int(response.headers['x-rate-limit-remaining']) == 0:
-            print("Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...")
+            print("{}: Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...".format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())))
             sleep(900)
 
         get_many_users(names, recursive_deep)        
@@ -129,7 +129,7 @@ def get_follows(id, recursive_deep):
         print('User ID={} is not following anyone, skip this user.'.format(id))
     else:
         if int(response.headers['x-rate-limit-remaining']) == 0:
-            print("Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...")
+            print("{}: Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...".format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())))
             sleep(900)    
 
     try:
@@ -151,7 +151,7 @@ def get_follows(id, recursive_deep):
                     names = names + "," + name    
         
             if int(response.headers['x-rate-limit-remaining']) == 0:
-                print("Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...")
+                print("{}: Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...".format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())))
                 sleep(900)
 
             get_many_users(names, recursive_deep)
@@ -167,7 +167,7 @@ def get_many_users(users, recursive_deep):
         json_data = json_response['data']  
             
         if int(response.headers['x-rate-limit-remaining']) == 0:
-            print("Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...")
+            print("{}: Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...".format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())))
             sleep(900)    
     
         for x in json_data:
@@ -179,7 +179,7 @@ def get_many_users(users, recursive_deep):
         print('No follows for ID={}, skipping this user.')
     else:
         if int(response.headers['x-rate-limit-remaining']) == 0:
-            print("Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...")
+            print("{}: Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...".format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())))
             sleep(900)       
     
 
@@ -237,7 +237,7 @@ def main():
     write_db_user(json_data)
     
     if int(response.headers['x-rate-limit-remaining']) == 0:
-        print("Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...")
+        print("{}: Twitter rate-limit exceeded. Waiting for the next window (15 minutes)...".format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())))
         sleep(900)
 
     get_follows(userid, 1)    
