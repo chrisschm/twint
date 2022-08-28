@@ -4,11 +4,12 @@ Twitter Intelligence
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. Just clone the repository and rebuild..
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. You will need a develper account on [developer.twitter.com](https://developer.twitter.com/) to build needed access tokens.
 
 ## Built With
 
-* [Visual Studio Code](https://code.visualstudio.com/?wt.mc_id=vscom_downloads) - Visual Studio Code (Version 1.70.2) 
+* [Visual Studio Code](https://code.visualstudio.com/?wt.mc_id=vscom_downloads) - Visual Studio Code Version 1.70.2
+* [Python](https://www.python.org/downloads/) - Python Version 3.10.6
 
 ## Authors
 
