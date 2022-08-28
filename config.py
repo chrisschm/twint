@@ -5,9 +5,9 @@ import os
 ### Konstante ####################################################################################
 
 # Twitter API Bearer Token
-bearer_token = "AAAAAAAAAAAAAAAAAAAAAIHCgAEAAAAAkGdJe6%2FDy3hhoPTgkM03fFnu3o0%3DpsVeksZowYNvsEb0jVHr4UD2W9EBNYt0DZhJ3zEsQgK9kXwGF3"
+bearer_token = "YourOwnTokenFrom-https://developer.twitter.com/en"
 # Twitter Username to start with (follows.py)
-startuser = "christiansagt"
+startuser = "TwitterUsername"
 # How many steps deep should we go (follows.py)
 recursive = 1
 # Path and filename of the script itself
