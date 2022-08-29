@@ -11,6 +11,14 @@ These instructions will get you a copy of the project up and running on your loc
 * [Visual Studio Code](https://code.visualstudio.com/?wt.mc_id=vscom_downloads) - Visual Studio Code Version 1.70.2
 * [Python](https://www.python.org/downloads/) - Python Version 3.10.6
 
+### Python modules
+
+- networkx
+- pyvis
+- requests
+  
+  seealso requirements.txt
+
 ## Authors
 
 * **Christian Schmidt** - *Initial work* - [chrissch](https://github.com/chrisschm)
