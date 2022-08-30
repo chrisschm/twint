@@ -5,14 +5,15 @@ import config
 
 ### Variable #####################################################################################
 
-# Usercounter
+# Ein Zähler um am Laufzeitende auszugeben, wieviele Twitterkonten gelesen wurden
+# Benutzer können mehrfach vorkommen, daher sind in der Datenbank am Ende weniger vorhanden
 user_counter = int(0)
+
 
 ### Funktionen ###################################################################################
 
 
-
-# Twitter v2 API App Authorization with Bearer Token
+### Twitter v2 API App Authorization with Bearer Token ###########################################
 def bearer_oauth(r):
     r.headers["Authorization"] = f"Bearer {config.bearer_token}"
     r.headers["User-Agent"] = "v2UserLookupPython"
@@ -41,6 +42,7 @@ def connect_to_endpoint(url):
     return response
 
 
+### Recursiv function to get all followers and following accounts of given userid ################
 def get_follows(id, recursive_deep):
     url = 'https://api.twitter.com/2/users/{}/followers'.format(id)
     response = connect_to_endpoint(url)   
@@ -157,6 +159,7 @@ def get_follows(id, recursive_deep):
         print('')
 
 
+### Function to get attributes of a given list of usernames ######################################
 def get_many_users(users, recursive_deep):
     url = create_users_url(users)
     response = connect_to_endpoint(url)
@@ -181,6 +184,7 @@ def get_many_users(users, recursive_deep):
             time.sleep(900)       
     
 
+### Function writes one user into the database ###################################################
 def write_db_user(user):
     con = sqlite3.connect(config.DBName)
     cur = con.cursor()
@@ -208,6 +212,7 @@ def write_db_user(user):
     user_counter = user_counter + 1    
 
 
+### Function writes all followers and following ids of a given user into the database ############
 def write_db_follows(user, follower):
     con = sqlite3.connect(config.DBName)
     cur = con.cursor()
@@ -220,16 +225,13 @@ def write_db_follows(user, follower):
     cur.close()
     con.close()
 
- 
+
+### Main function of the program #################################################################
 def main():   
     config.create_db()
     url = create_start_url()
     response = connect_to_endpoint(url)
     json_response = response.json()
-
-    #usr = user(json_response)
-    #print(usr.name)
-
     json_data = json_response['data']
     userid = json_data['id']
     write_db_user(json_data)

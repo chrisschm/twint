@@ -3,9 +3,9 @@ import config
 import networkx as nx
 from pyvis.network import Network
 
-LIMIT_TO_SHOW = 500
+LIMIT_TO_SHOW = 1000
 
-MainGraph = nx.MultiGraph()
+MainGraph = nx.MultiDiGraph()
 
 con = sqlite3.connect(config.DBName)
 cur = con.cursor()
@@ -27,4 +27,5 @@ con.close()
 
 net = Network(directed=False,notebook=True,height="900px",width='1200px')
 net.from_nx(MainGraph)
+net.show_buttons()
 net.show("user_network.html")
