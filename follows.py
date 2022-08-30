@@ -2,6 +2,7 @@ import time
 import sqlite3
 import requests
 import config
+import twitter_api
 
 ### Variable #####################################################################################
 
@@ -13,39 +14,11 @@ user_counter = int(0)
 ### Funktionen ###################################################################################
 
 
-### Twitter v2 API App Authorization with Bearer Token ###########################################
-def bearer_oauth(r):
-    r.headers["Authorization"] = f"Bearer {config.bearer_token}"
-    r.headers["User-Agent"] = "v2UserLookupPython"
-    return r
-
-
-# Twitter v2 API query url for a single user
-def create_start_url():    
-    url = "https://api.twitter.com/2/users/by/username/{}?{}".format(config.startuser, config.user_fields)
-    return url
-
-# Twitter v2 API query url for a list of users
-def create_users_url(usernames_cs):
-    usernames = "usernames=" + usernames_cs
-    url = "https://api.twitter.com/2/users/by?{}&{}".format(usernames, config.user_fields)
-    return url
-
-
-# Twitter v2 API query
-def connect_to_endpoint(url):
-    response = requests.request("GET", url, auth=bearer_oauth,)
-    if response.status_code != 200:
-        raise Exception(
-            "Request returned an error: {} {}".format(response.status_code, response.text)
-        )
-    return response
-
 
 ### Recursiv function to get all followers and following accounts of given userid ################
 def get_follows(id, recursive_deep):
     url = 'https://api.twitter.com/2/users/{}/followers'.format(id)
-    response = connect_to_endpoint(url)   
+    response = twitter_api.connect_to_endpoint(url)   
     json_response = response.json()
     
     try:
@@ -78,7 +51,7 @@ def get_follows(id, recursive_deep):
         while json_response["meta"]["next_token"]:
             time.sleep(2)
             url_next = url + '?pagination_token={}'.format(json_response["meta"]["next_token"])
-            response = connect_to_endpoint(url_next)   
+            response = twitter_api.connect_to_endpoint(url_next)   
             json_response = response.json()
         
             json_data = json_response['data']
@@ -103,7 +76,7 @@ def get_follows(id, recursive_deep):
     ### Following ###
 
     url = 'https://api.twitter.com/2/users/{}/following'.format(id)
-    response = connect_to_endpoint(url)   
+    response = twitter_api.connect_to_endpoint(url)   
     json_response = response.json()
     
     try:
@@ -136,7 +109,7 @@ def get_follows(id, recursive_deep):
         while json_response["meta"]["next_token"]:
             time.sleep(2)
             url_next = url + '?pagination_token={}'.format(json_response["meta"]["next_token"])
-            response = connect_to_endpoint(url_next)   
+            response = twitter_api.connect_to_endpoint(url_next)   
             json_response = response.json()
         
             json_data = json_response['data']
@@ -156,13 +129,13 @@ def get_follows(id, recursive_deep):
 
             get_many_users(names, recursive_deep)
     except KeyError:
-        print('')
+        pass
 
 
 ### Function to get attributes of a given list of usernames ######################################
 def get_many_users(users, recursive_deep):
-    url = create_users_url(users)
-    response = connect_to_endpoint(url)
+    url = twitter_api.create_usernames_url(users)
+    response = twitter_api.connect_to_endpoint(url)
     json_response = response.json()
     try:
         json_data = json_response['data']  
@@ -229,8 +202,9 @@ def write_db_follows(user, follower):
 ### Main function of the program #################################################################
 def main():   
     config.create_db()
-    url = create_start_url()
-    response = connect_to_endpoint(url)
+    #url = create_start_url()
+    url = twitter_api.create_username_url(config.startuser)
+    response = twitter_api.connect_to_endpoint(url)
     json_response = response.json()
     json_data = json_response['data']
     userid = json_data['id']
